@@ -5,7 +5,6 @@ package tl.mashyonscraper;
 import java.util.*;
 import java.io.*;
 
-
 import tl.mashyonscraper.controller.ScrapeController;
 
 
@@ -53,6 +52,8 @@ public class MashyonScraper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		ScrapeController.extractDocument(urlList);
 		
 	}
 
