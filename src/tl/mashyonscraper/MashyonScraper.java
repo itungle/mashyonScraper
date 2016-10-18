@@ -1,18 +1,15 @@
 /**
  * 
  */
-package pp.mashyonscraper;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+package tl.mashyonscraper;
 import java.util.*;
 import java.io.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import pp.mashyonscraper.controller.ScrapeController;
+
+
+import tl.mashyonscraper.controller.ScrapeController;
+
+
+
 
 /**
  * MashyonScraper.java
@@ -23,7 +20,6 @@ import pp.mashyonscraper.controller.ScrapeController;
  *
  */
 public class MashyonScraper {
-	public static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
 	/**
 	 * @param args reddit/r/malefashionadvice's WAYWT URL
 	 * @return Nothing
@@ -31,6 +27,8 @@ public class MashyonScraper {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub.
 		File fileToOpen = null;
+		String currLine = "";
+		List<String> urlList = new ArrayList<String>();
 		if (args.length != 1) {
 			System.out.println("Please restart program and enter ONE valid file (example: /home/input/links.txt");			
 			System.exit(0);
@@ -40,24 +38,22 @@ public class MashyonScraper {
 		}
 		try {
 			FileReader fileReader = new FileReader(fileToOpen);
-			
+			BufferedReader bufferReader = new BufferedReader(fileReader);
+			while ((currLine = bufferReader.readLine()) != null)
+			{
+				System.out.println(currLine);
+				urlList.add(currLine);
+			}
+						
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		/*
-		Scanner scanner = new Scanner(System.in);
-		ArrayList<String> files = new ArrayList<String>();
-		System.out.println("Enter in file name (example: /inputs/links.txt) or 'quit'");
-		while (!scanner.nextLine().trim().equals("quit") && scanner.hasNext()) {
-			files.add(scanner.nextLine());
-		}
-		
-		System.out.println("Currently extracting URLs from files");
-		*/
 	}
-	
 
 }
