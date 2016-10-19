@@ -43,6 +43,8 @@ public class MashyonScraper {
 				System.out.println(currLine);
 				urlList.add(currLine);
 			}
+			bufferReader.close();
+			fileReader.close();
 						
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -53,7 +55,8 @@ public class MashyonScraper {
 			e.printStackTrace();
 		}
 		
-		ScrapeController.extractDocument(urlList);
+		ScrapeController scrapeController = new ScrapeController();
+		scrapeController.extractDocument(urlList);
 		
 	}
 

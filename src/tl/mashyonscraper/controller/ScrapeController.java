@@ -17,18 +17,20 @@ import tl.mashyonscraper.model.Page;
 public class ScrapeController {
 	private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
 	
-	public List<Page> imageSrcList = null;
+	public static List<Page> pageList;
 	
 	public ScrapeController() {
-		imageSrcList = new ArrayList<Page>();
+		pageList = new ArrayList<Page>();
 	}
 	
-	public static void extractDocument(List<String> urlsToGet) {
+	public void extractDocument(List<String> urlsToGet) {
 		try {
+			if (pageList == null) {
+				pageList = new ArrayList<Page>();
+			}
 			String tempPageTitle = "";
 			Date tempPageDate = new Date();
-			DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-			List<String> listOfhref = new ArrayList<String>();
+			DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");			
 			for (String url : urlsToGet) {			
 				Document doc = Jsoup.connect(url).userAgent(USER_AGENT).timeout(0).get();
 				tempPageTitle = doc.title().substring(0, doc.title().indexOf(":")).trim();
@@ -36,12 +38,14 @@ public class ScrapeController {
 				Element dateTimeElement = doc.select("time").first();				
 				tempPageDate = dateFormat.parse(dateTimeElement.text());
 				System.out.println(tempPageDate);
-				Elements anchorSrc = doc.select(".usertext-body .md a");
-				for (Element e : anchorSrc) {
-					System.out.println(e.attr("abs:href"));
-				}
-				
-				
+				Elements tempPageAnchors = doc.select(".usertext-body .md a");
+				Page newPage = new Page(tempPageTitle, tempPageDate, tempPageAnchors);		
+				pageList.add(newPage);
+			}
+			
+			for (Page eachPage : pageList) {
+				eachPage.filterAnchors("abs:href");
+				System.out.println(eachPage.getImageList().size());
 			}
 		}
 		catch (IOException e) {
@@ -53,18 +57,4 @@ public class ScrapeController {
 		}
 	}
 	
-	
-		
-	public static boolean isImage(String imageURL){
-		String png = ".png";
-		String jpg = ".jpg";
-		String jpeg = ".jpeg";
-		String imgur = "imgur";
-		if (imageURL.contains(png) || imageURL.contains(jpg) || imageURL.contains(jpeg) || imageURL.contains(imgur)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 }
