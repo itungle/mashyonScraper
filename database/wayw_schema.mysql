@@ -1,0 +1,15 @@
+USE WAYWT;
+CREATE TABLE IF NOT EXISTS page_info (
+  id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(100) NOT NULL,
+  date DATE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE IF NOT EXISTS image_info (
+  id INT NOT NULL AUTO_INCREMENT,
+  page_id INT NOT NULL,
+  image_url VARCHAR(256) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (page_id) REFERENCES page_info(id)
+);

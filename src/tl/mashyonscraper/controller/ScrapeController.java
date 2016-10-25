@@ -45,7 +45,6 @@ public class ScrapeController {
 			
 			for (Page eachPage : pageList) {
 				eachPage.filterAnchors("abs:href");
-				System.out.println(eachPage.getImageList().size());
 			}
 		}
 		catch (IOException e) {

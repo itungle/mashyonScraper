@@ -4,8 +4,14 @@
 package tl.mashyonscraper;
 import java.util.*;
 import java.io.*;
+import java.sql.*;
+import javax.sql.*;
 
-import tl.mashyonscraper.controller.ScrapeController;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
+import tl.mashyonscraper.controller.*;
+import tl.mashyonscraper.database.*;
+
 
 
 
@@ -55,8 +61,25 @@ public class MashyonScraper {
 			e.printStackTrace();
 		}
 		
-		ScrapeController scrapeController = new ScrapeController();
-		scrapeController.extractDocument(urlList);
+		//ScrapeController scrapeController = new ScrapeController();
+		//scrapeController.extractDocument(urlList);
+		
+		DataSource ds = DataSourceFactory.getMySqlDataSource();
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<String> testing = new ArrayList<String>();
+		AccessDatabase ac = new AccessDatabase();
+		String page_info = "page_info";
+		testing = ac.getAllTitle(page_info, conn);
+		for (String s : testing) {
+			System.out.println(s);
+		}
+		
 		
 	}
 
