@@ -11,6 +11,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import tl.mashyonscraper.controller.*;
 import tl.mashyonscraper.database.*;
+import tl.mashyonscraper.model.Page;
 
 
 
@@ -61,24 +62,33 @@ public class MashyonScraper {
 			e.printStackTrace();
 		}
 		
-		//ScrapeController scrapeController = new ScrapeController();
-		//scrapeController.extractDocument(urlList);
+		
 		
 		DataSource ds = DataSourceFactory.getMySqlDataSource();
 		Connection conn = null;
+		List<Page> pageList = new ArrayList<Page>();
 		try {
 			conn = ds.getConnection();
+			pageList = ScrapeController.extractDocument(urlList);
+			int page_id = 0;
+			for (Page p : pageList){
+				//page_id = AccessDatabase.doesPageExist(conn, p.getDate());
+				//System.out.println(page_id);
+				//if (page_id != 0) {
+					//AccessDatabase.insertIntoImageInfo(conn, page_id, p.getImageList());
+				//}
+				//else {
+					page_id = AccessDatabase.insertPageInfo(conn, p.getTitle(), p.getDate());
+					System.out.println(page_id);
+					AccessDatabase.insertIntoImageInfo(conn, page_id, p.getImageList());
+				//}
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		List<String> testing = new ArrayList<String>();
-		AccessDatabase ac = new AccessDatabase();
-		String page_info = "page_info";
-		testing = ac.getAllTitle(page_info, conn);
-		for (String s : testing) {
-			System.out.println(s);
-		}
+		}	
+		
+
 		
 		
 	}
