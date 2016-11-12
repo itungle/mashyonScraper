@@ -1,4 +1,4 @@
-package tl.mashyonscraper.controller;
+package tl.mashyonscraper.helper;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -14,7 +14,7 @@ import java.util.logging.Level;
 
 import tl.mashyonscraper.model.Page;
 
-public class ScrapeController {
+public class ScrapeHelper {
 	private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
 		
 	

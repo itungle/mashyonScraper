@@ -9,8 +9,8 @@ import javax.sql.*;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-import tl.mashyonscraper.controller.*;
 import tl.mashyonscraper.database.*;
+import tl.mashyonscraper.helper.*;
 import tl.mashyonscraper.model.Page;
 
 
@@ -69,19 +69,19 @@ public class MashyonScraper {
 		List<Page> pageList = new ArrayList<Page>();
 		try {
 			conn = ds.getConnection();
-			pageList = ScrapeController.extractDocument(urlList);
+			pageList = ScrapeHelper.extractDocument(urlList);
 			int page_id = 0;
 			for (Page p : pageList){
-				//page_id = AccessDatabase.doesPageExist(conn, p.getDate());
-				//System.out.println(page_id);
-				//if (page_id != 0) {
-					//AccessDatabase.insertIntoImageInfo(conn, page_id, p.getImageList());
-				//}
-				//else {
+				page_id = AccessDatabase.doesPageExist(conn, p.getDate());
+				System.out.println(page_id);
+				if (page_id != 0) {
+					AccessDatabase.insertIntoImageInfo(conn, page_id, p.getImageList());
+				}
+				else {
 					page_id = AccessDatabase.insertPageInfo(conn, p.getTitle(), p.getDate());
 					System.out.println(page_id);
 					AccessDatabase.insertIntoImageInfo(conn, page_id, p.getImageList());
-				//}
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
